@@ -1,25 +1,29 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import { PostsProvider } from './context/PostsContext';
+import CreatePost from './components/CreatePost';
+import PostsDisplay from './components/PostsDisplay';
 import './App.css';
 
-function App() {
+const App = () => {
+  const [editingPost, setEditingPost] = useState(null);
+
+  const handleEdit = (post) => {
+    setEditingPost(post);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <PostsProvider>
+      <div className="App">
+        <h1>Posts App</h1>
+        {editingPost ? (
+          <CreatePost post={editingPost} setEditingPost={setEditingPost} />
+        ) : (
+          <CreatePost />
+        )}
+        <PostsDisplay onEdit={handleEdit} />
+      </div>
+    </PostsProvider>
   );
-}
+};
 
 export default App;
